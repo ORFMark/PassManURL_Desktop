@@ -61,6 +61,10 @@ public class Generator {
 		minAlpha = l;
 	}
 
+	public void setRepeat(boolean r) {
+		repeatAllowed = r;
+	}
+
 	public long generateSeed(String name, String URL, int PIN) {
 		long seed = 0;
 		int x = (int) URL.charAt((URL.length() - 1));
@@ -71,15 +75,20 @@ public class Generator {
 	}
 
 	public String generatePassword() {
-		System.out.println(length);
 		char password[] = new char[length];
 		char toAdd;
-		int special = 0, num = 0, alpha = 0;
+		int special, num, alpha, attemptedPass = 0;
+		;
 		boolean validPassword = false;
+		String finalPassword = "";
 		while (!validPassword) {
+			attemptedPass++;
+			special = 0;
+			num = 0;
+			alpha = 0;
 			for (int i = 0; i < length; i++) {
 				toAdd = (char) (gen.nextInt(93) + 33);
-				if ((repeatAllowed == false && repeated(password, i, toAdd)) || repeatAllowed == true) {
+				if ((repeatAllowed == false && !repeated(password, i, toAdd)) || repeatAllowed == true) {
 					password[i] = toAdd;
 				} else {
 					continue;
@@ -93,16 +102,25 @@ public class Generator {
 				} else {
 					continue;
 				}
-				System.out.print(toAdd);
 
 			}
 			if (special >= minSpec && num >= minNum && alpha >= minAlpha) {
 				validPassword = true;
-				System.out.println();
+			}
+			if (attemptedPass >= 1000000) {
+				break;
 			}
 		}
-		System.out.println(password.toString().length());
-		return password.toString();
+		if (attemptedPass < 1000000) {
+			for (int j = 0; j < length; j++) {
+				finalPassword += password[j];
+			}
+		}
+		else {
+			System.out.println("Too strict of password Critera, reduce the critera or increase the length");
+			return null;
+		}
+		return finalPassword;
 	}
-	
+
 }

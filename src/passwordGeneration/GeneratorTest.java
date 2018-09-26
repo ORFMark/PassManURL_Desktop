@@ -9,7 +9,8 @@ public class GeneratorTest {
 		gen.setMinLetters(4);
 		gen.setMinSpecial(2);
 		gen.setMinNum(4);
-		seed = gen.generateSeed("markrb0609@gmail.com", "google.com", 1205);
+		gen.setRepeat(true);
+		seed = gen.generateSeed("Bleh", "Blop", 43);
 		gen.setSeed(seed);
 		System.out.println(gen.generatePassword());
 	}
