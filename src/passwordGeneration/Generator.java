@@ -4,11 +4,11 @@ import java.util.Random;
 
 public class Generator {
 	private Random gen;
-	private int length;
-	private int minSpec;
-	private int minNum;
-	private int minAlpha;
-	boolean repeatAllowed;
+	protected int length;
+	protected int minSpec;
+	protected int minNum;
+	protected int minAlpha;
+	protected boolean repeatAllowed;
 
 	Generator() {
 		gen = new Random();
@@ -19,7 +19,7 @@ public class Generator {
 		repeatAllowed = true;
 	};
 
-	private boolean repeated(char[] array, int len, char c) {
+	protected boolean repeated(char[] array, int len, char c) {
 		for (int i = 0; i < len; i++) {
 			if (array[i] == c) {
 				return true;

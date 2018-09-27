@@ -13,6 +13,12 @@ public class GeneratorTest {
 		seed = gen.generateSeed("Bleh", "Blop", 43);
 		gen.setSeed(seed);
 		System.out.println(gen.generatePassword());
+		GeneratorStrong strong = new GeneratorStrong();
+		strong.setDesiredLength(32);
+		strong.setMinLetters(4);
+		strong.setMinNum(4);
+		strong.setMinSpecial(2);
+		System.out.println(strong.generatePassword());
 	}
 
 }
