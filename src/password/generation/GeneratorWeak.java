@@ -1,8 +1,8 @@
-package passwordGeneration;
+package password.generation;
 
 import java.util.Random;
 
-public class Generator {
+public class GeneratorWeak {
 	private Random gen;
 	protected int length;
 	protected int minSpec;
@@ -10,7 +10,7 @@ public class Generator {
 	protected int minAlpha;
 	protected boolean repeatAllowed;
 
-	Generator() {
+	GeneratorWeak() {
 		gen = new Random();
 		length = 16;
 		minSpec = 0;

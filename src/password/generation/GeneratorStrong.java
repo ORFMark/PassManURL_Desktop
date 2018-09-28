@@ -1,8 +1,8 @@
-package passwordGeneration;
+package password.generation;
 
 import java.security.SecureRandom;
 
-public class GeneratorStrong extends Generator {
+public class GeneratorStrong extends GeneratorWeak {
 	private SecureRandom gen = new SecureRandom();
 
 	GeneratorStrong() {
