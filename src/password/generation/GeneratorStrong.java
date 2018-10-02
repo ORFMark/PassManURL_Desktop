@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 public class GeneratorStrong extends GeneratorWeak {
 	private SecureRandom gen = new SecureRandom();
 
-	GeneratorStrong() {
+	public GeneratorStrong() {
 		super();
 	}
 

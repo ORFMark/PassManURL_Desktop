@@ -15,6 +15,12 @@ import javax.crypto.spec.SecretKeySpec;
 public class Crypto {
 	private SecretKeySpec secKey;
 	private byte[] hiddenKey;
+	String usrKey;
+	
+	Crypto(String key) {
+		usrKey = key;
+	}
+	
 	private void setKey(String key) {
 		MessageDigest md = null;
 		try {
@@ -30,13 +36,12 @@ public class Crypto {
 		}
 	}
 
-	Crypto(String key) {
-		setKey(key);
-	}
-	public String encrypt(String clearText) throws InvalidKeyException {
+	
+	public String encrypt(String clearText) {
 		Cipher crypt;
 		try {
-			crypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			setKey(usrKey);
+			crypt = Cipher.getInstance("AES/ECB/PKCS5Padding");
 			crypt.init(Cipher.ENCRYPT_MODE, secKey);
 			return Base64.getEncoder().encodeToString(crypt.doFinal(clearText.getBytes("UTF-8")));
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
@@ -47,6 +52,8 @@ public class Crypto {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -54,7 +61,8 @@ public class Crypto {
 	public String decrypt(String cipherText) {
 		Cipher crypt;
 		try {
-			crypt = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+			setKey(usrKey);
+			crypt = Cipher.getInstance("AES/ECB/PKCS5Padding");
 			crypt.init(Cipher.DECRYPT_MODE, secKey);
 			return new String(crypt.doFinal(Base64.getDecoder().decode(cipherText)));
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
