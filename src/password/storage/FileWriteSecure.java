@@ -7,11 +7,13 @@ public class FileWriteSecure {
 	private FileWriter writer = null;
 	private Crypto cipher = null;
 	private final String DIRECTORY = System.getProperty("user.home") + File.separator + "PassManURL" + File.separator;
+	private String path = null;
 	private final String newLine = System.lineSeparator();
 	FileWriteSecure(String fileName, String encryptionKey) {
-		File f = new File(DIRECTORY + fileName);
+		path = DIRECTORY + fileName;
+		File f = new File(path);
 		if (!f.exists() && !f.isDirectory()) {
-			createFile(DIRECTORY + fileName);
+			createFile(path);
 		}
 		try {
 			writer = new FileWriter(DIRECTORY + fileName, true);
@@ -43,13 +45,18 @@ public class FileWriteSecure {
 		String record = newLine + URL.trim() + "::" + cipher.encrypt(userName + "::" + password);
 		try {
 			writer.write(record);
-			writer.close();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
-		
+	
+	}
+	public void close() throws IOException {
+		writer.close();
+	}
+	public void open() throws IOException {
+		writer = new FileWriter(path);
 	}
 }
 
