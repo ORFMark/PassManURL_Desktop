@@ -4,11 +4,11 @@ cryptographically secure, although it is intended to be~~ cryptographically secu
 
 
 ##TODO
--[X] Cryptographically secure password genereation 
--[X] File IO with Encryption for password storage
--[] GUI for password generation/viewing
--[] Add support for updating Passwords
--[] Add support for mobile app integration
--[] Add chrome integration
+- [x] Cryptographically secure password genereation 
+- [x] File IO with Encryption for password storage
+- [ ] GUI for password generation/viewing
+- [ ] Add support for updating Passwords
+- [ ] Add support for mobile app integration
+- [ ] Add chrome integration
 
 -MRB 12/6/2018
