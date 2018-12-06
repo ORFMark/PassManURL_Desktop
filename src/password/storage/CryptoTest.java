@@ -9,11 +9,11 @@ public class CryptoTest {
 		
 		try {
 			FileWriteSecure write = new FileWriteSecure("data.dat", testPass);
-			FileReadSecure read = new FileReadSecure("data.dat", testPass);
-			System.out.println(Hash.hash(testPass, salt));
+			//System.out.println(Hash.hash(testPass, salt));
 			write.writeRecord("Google.com", "IAmATest", testPass);
 			write.writeRecord("ernie.org", "smithj", "randomInput");
 			write.close();
+			FileReadSecure read = new FileReadSecure("data.dat", testPass);
 			System.out.println(read.fileReadSecure("ernie.org"));
 		} catch (IOException e) {
 			e.printStackTrace();

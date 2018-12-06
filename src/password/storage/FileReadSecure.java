@@ -8,11 +8,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.CharBuffer;
+import java.util.Hashtable;
 
 public class FileReadSecure {
 	private BufferedReader read = null;
 	private Crypto cipher = null;
 	private final String DIRECTORY = System.getProperty("user.home") + File.separator + "PassManURL" + File.separator;
+	private Hashtable<String, String> records;
 	private String loc;
 
 	FileReadSecure(String fileName, String encryptionKey) {
@@ -20,68 +22,72 @@ public class FileReadSecure {
 			loc = DIRECTORY + fileName;
 			read = new BufferedReader(new FileReader(loc));
 			cipher = new Crypto(encryptionKey);
+			records = new Hashtable<String, String>();
+			readFileToHashTable();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-
-	public String fileReadSecure(String key) {
-		String record = findRecord(key);
-		String encrypted = "";
-		boolean start = false;
-		int i = 0;
-		if (record.equals(null)) {
-			return null;
-		} else {
-			record = record.trim();
-			for (i = 2; i < record.length(); i++) {
-				if (record.charAt(i - 1) == ':' && record.charAt(i - 2) == ':') {
-					start = true;
-				}
-				if (start) {
-					encrypted += record.charAt(i);
-				}
-			}
-			return cipher.decrypt(encrypted);
-		}
-
-	}
-
-	public String fileReadSecure(String key, boolean includeURL) {
-		if (includeURL) {
-			return findRecord(key);
-		} else {
-			String record = findRecord(key);
-			String encrypted = "";
-			boolean start = false;
-			int i = 0;
-			if (record.equals(null)) {
-				return null;
-			} else {
-				record = record.trim();
-				for (i = 2; i < record.length(); i++) {
-					if (record.charAt(i - 1) == ':' && record.charAt(i - 2) == ':') {
-						start = true;
-					}
-					if (start) {
-						encrypted += record.charAt(i);
-					}
-				}
-				return cipher.decrypt(encrypted);
-			}
-
-		}
-	}
-
-	private String findRecord(String key) {
+	private void readFileToHashTable() {
 		String line = null;
-		do {
+		String key = null; 
+		String record = null;
+		boolean start = false;
+		try {
+			line = read.readLine();
+			key = null;
+			record = null;
+			start = false;
+			line = read.readLine();
+		} catch (IOException e) {
+			System.out.println("ERROR IN INIT");
+			e.printStackTrace();
+		}
+		while(line != null) {
+			line = line.trim();
+			for(int i = 0; i < line.length(); i++) {
+				if (start == false) {
+					if (line.charAt(i) == ':' && line.charAt(i+1) == ':') {
+						start = true;
+						i++;
+					}
+					else {
+						if(key == null) {
+							key = Character.toString(line.charAt(i));
+						}
+						else {
+							key += line.charAt(i);
+						}
+					}
+				}
+				else {
+					if (record == null) {
+						record = Character.toString(line.charAt(i));
+					} else {
+						record += line.charAt(i);
+					}
+				}
+			}
+			System.out.println("Key: " + key + " Record: " + record);
+			records.put(key, record);
+			key = null;
+			record = null;
+			start = false;
 			try {
 				line = read.readLine();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} while (line != null && !line.contains(key));
+		}
+
+
+	}
+	public String fileReadSecure(String key) {
+		return  cipher.decrypt(findRecord(key));
+	}
+
+	private String findRecord(String key) {
+		String line = records.get(key);
 		return line;
 	}
 

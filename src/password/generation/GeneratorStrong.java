@@ -27,7 +27,8 @@ public class GeneratorStrong extends GeneratorWeak {
 					password[i] = toAdd;
 				} else {
 					continue;
-				} if(isSpecial(toAdd)) {
+				}
+				if (isSpecial(toAdd)) {
 					special++;
 				} else if (isNum(toAdd)) {
 					num++;
@@ -44,15 +45,15 @@ public class GeneratorStrong extends GeneratorWeak {
 			if (attemptedPass >= 1000000) {
 				break;
 			}
-		}if(attemptedPass<1000000)
-
-	{
-		for (int j = 0; j < length; j++) {
-			finalPassword += password[j];
 		}
-	}else
-	{
-		System.out.println("Too strict of password Critera, reduce the critera or increase the length");
-		return null;
-	}return finalPassword;
-}}
+		if (attemptedPass < 1000000) {
+			for (int j = 0; j < length; j++) {
+				finalPassword += password[j];
+			}
+		} else {
+			System.out.println("Too strict of password Critera, reduce the critera or increase the length");
+			return null;
+		}
+		return finalPassword;
+	}
+}
