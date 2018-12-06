@@ -68,7 +68,7 @@ public class FileReadSecure {
 					}
 				}
 			}
-			System.out.println("Key: " + key + " Record: " + record);
+			//System.out.println("Key: " + key + " Record: " + record);
 			records.put(key, record);
 			key = null;
 			record = null;
