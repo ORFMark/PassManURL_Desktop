@@ -11,7 +11,7 @@ public class GeneratorTest {
 			gen.setMinSpecial(2);
 			gen.setMinNum(4);
 			gen.setRepeat(true);
-			seed = gen.generateSeed("bleh", "blop", 43);
+			seed = gen.generateSeed("git.apt357.net", "markrb0609@gmail.com", 11282018);
 			gen.setSeed(seed);
 			System.out.println(gen.generatePassword());
 		}
